@@ -9,9 +9,11 @@ This project implements a multi-agent system using the **Google ADK** to automat
 ## Key Technologies
 
 *   **Framework:** Google ADK (Agent Development Kit)
+https://google.github.io/adk-docs/
 *   **Language:** Python 3
 *   **Generative AI:** Vertex AI (GenAI SDK)
-*   **Models:** `gemini-3-pro-image-preview` (for image generation and editing)
+*   **Models:** ``imagen-3.0-generate-002 (for image generation and editing)
+*   **Models:** ``gemini-2.5-flash 
 *   **Environment:** `.env` for Google Cloud project configuration
 
 ## Project Structure
