@@ -5,6 +5,15 @@ This repository contains an agentic pipeline for generating comic books, built u
 It is based on the solution to the codelab:
 [Create a low-code agent with ADK visual builder](https://codelabs.developers.google.com/codelabs/create-low-code-agent-with-ADK-visual-builder)
 
+## Known Bugs
+Step 6 - add a source .env after creating the file to expose the variables in the current shell
+
+Step 7- agent creation may nest the yaml file in a subdirectory
+workaround is to move the yaml file to the root of the directory
+
+open issue in GitHub:
+https://github.com/google/adk-python/issues/4134
+
 ## Features
 
 - **Automated Scripting**: Generates creative comic scripts from high-level prompts.
