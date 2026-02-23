@@ -3,7 +3,7 @@ gcloud services enable cloudresourcemanager.googleapis.com
 
 curl -s https://raw.githubusercontent.com/haren-bh/gcpbillingactivate/main/activate.py | python3
 
-cat <<EOF>> .env
+cat <<EOF> .env
 GOOGLE_GENAI_USE_VERTEXAI=1
 GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
 GOOGLE_CLOUD_LOCATION=us-central1

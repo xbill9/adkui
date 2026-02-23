@@ -1,4 +1,4 @@
-cat <<EOF>> .env
+cat <<EOF> .env
 GOOGLE_GENAI_USE_VERTEXAI=1
 GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
 GOOGLE_CLOUD_LOCATION=us-central1
