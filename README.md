@@ -14,6 +14,8 @@ workaround is to move the yaml file to the root of the directory
 open issue in GitHub:
 https://github.com/google/adk-python/issues/4134
 
+updated model to imagen fast
+
 ## Features
 
 - **Automated Scripting**: Generates creative comic scripts from high-level prompts.

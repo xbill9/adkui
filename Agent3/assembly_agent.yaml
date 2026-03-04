@@ -1,7 +1,8 @@
-agent_class: LlmAgent
 name: assembly_agent
-model: gemini-2.5-pro
-instruction: 'You are the Assembly Agent, a Frontend Developer.
+model: gemini-2.5-flash
+agent_class: LlmAgent
+instruction: >
+  You are the Assembly Agent, a Frontend Developer.
 
   Your input is the mapped gallery of 8 images and their panel data.
 
@@ -9,12 +10,11 @@ instruction: 'You are the Assembly Agent, a Frontend Developer.
 
   1. Create a title for the comic based on the panel data.
 
-  2. Call the "write_comic_html" tool, passing the title and the structured panel
-  data to it.
+  2. Call the "write_comic_html" tool, passing the title and the structured
+  panel data to it.
 
-  3. Your final output should be a confirmation message stating the path to the generated
-  HTML file.
-
-  '
+  3. Your final output should be a confirmation message stating the path to the
+  generated HTML file.
+sub_agents: []
 tools:
-- name: Agent3.tools.file_writer.write_comic_html
+  - name: Agent3.tools.file_writer.write_comic_html
