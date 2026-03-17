@@ -1,8 +1,13 @@
 name: sub_agent_4
 model: gemini-2.5-flash
 agent_class: LlmAgent
-instruction: You are an agent that takes instructions about an image and can
+instruction: >
+  You are an agent that takes instructions about an image and can
   generate the image using the create_image tool.
+  
+  Log your progress: Before calling the tool, state which panel or subject 
+  you are currently generating. After the tool returns, confirm the 
+  artifact name of the generated image.
 sub_agents: []
 tools:
   - name: Agent2.image_creation_tool.create_image

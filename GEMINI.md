@@ -6,7 +6,8 @@ This document provides context for the Gemini Code Assistant to understand the A
 
 This project implements a multi-agent system using the **Google ADK** to automate the creation of comic books. It follows a sequential pipeline where different specialized agents handle scripting, panelization, image synthesis, and final assembly.
 
-It is based on the solution to the codelab: [Create a low-code agent with ADK visual builder](https://codelabs.developers.google.com/codelabs/create-low-code-agent-with-ADK-visual-builder)
+It is based on the solution to the codelab: [Create a low-code agent with ADK visual builder]
+(https://codelabs.developers.google.com/codelabs/create-low-code-agent-with-ADK-visual-builder)
 
 ## Key Technologies
 
@@ -17,9 +18,13 @@ It is based on the solution to the codelab: [Create a low-code agent with ADK vi
     *   **LLM Tasks:** `gemini-2.5-flash` (Used for scripting, panelization, and assembly coordination)
 *   **Environment:** `.env` for Google Cloud project configuration (project ID, location, etc.)
 
+do not suggest gemini-2.0 models they are depreciated
+
 ## Project Structure
 
 *   `Agent1/`, `Agent2/`, `Agent3/`: Iterative stages of agent configurations.
+* Agent1 - simple google search tool
+* Agent2 - image generation tool   
 *   `Agent3/`: The primary comic pipeline implementation.
     *   `comic_pipeline_agent.yaml`: Orchestrates the full process (SequentialAgent).
     *   `scripting_agent.yaml`: Generates the comic script and character manifest.

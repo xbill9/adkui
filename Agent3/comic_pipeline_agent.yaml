@@ -1,6 +1,6 @@
-name: comic_pipeline_agent
+name: comic_pipeline
 agent_class: SequentialAgent
-description: Manages the four-step sequential process of creating a comic book.
+description: A sequential pipeline of agents to create a comic book.
 sub_agents:
   - config_path: ./scripting_agent.yaml
   - config_path: ./panelization_agent.yaml

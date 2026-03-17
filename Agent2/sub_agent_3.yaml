@@ -16,6 +16,10 @@ instruction: |2-
       
       Guidelines: Use sensory language, avoid buzzwords like 'photorealistic' 
       unless necessary, and focus on specific artistic descriptors.
-      Once the prompt is created send the prompt to the 
+      
+      Log your progress: Before outputting the prompt, provide a brief status update 
+      about the style and composition you have chosen.
+
+      Once the prompt is created, output the final optimized prompt for the image generation tool. 
 sub_agents: []
 tools: []

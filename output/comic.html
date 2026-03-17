@@ -1,77 +1,261 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Story of Momotaro: Peach Boy Hero</title>
+    <title>The Story of Momotaro: The Peach Boy's Journey</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        .comic-container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #a04000; margin-bottom: 30px; }
-        .panel { margin-bottom: 25px; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-        .panel img { width: 100%; height: auto; display: block; border-bottom: 1px solid #eee; }
-        .panel .dialogue { padding: 15px; background-color: #f9f9f9; }
-        .panel p { margin: 5px 0; line-height: 1.4; }
-        .panel p b { color: #555; }
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .comic-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #fff;
+            border: 5px solid #333;
+            border-radius: 10px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 3em;
+            color: #d32f2f;
+            text-align: center;
+            text-shadow: 3px 3px 0px #333;
+            margin-bottom: 30px;
+            line-height: 1.1;
+        }
+
+        .comic-panel {
+            border: 3px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fdfdfd;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 2px solid #333; /* Separator between image and dialogue */
+        }
+
+        .panel-dialogue {
+            padding: 15px;
+            background-color: #fff;
+            border-top: 2px dashed #ccc;
+        }
+
+        .dialogue-bubble {
+            background-color: #e0f2f7;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            position: relative;
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .dialogue-bubble::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #333;
+            position: absolute;
+            bottom: -12px;
+            left: 20px;
+        }
+
+        .dialogue-bubble::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #e0f2f7;
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+        }
+
+        .character-name {
+            font-family: 'Bangers', cursive;
+            font-size: 1.2em;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+
+        .dialogue-line {
+            font-size: 1em;
+            color: #333;
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .comic-container {
+                padding: 15px;
+                gap: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .character-name {
+                font-size: 1.1em;
+            }
+            .dialogue-line {
+                font-size: 0.95em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="comic-container">
-        <h1>The Story of Momotaro: Peach Boy Hero</h1>
-        <div class="panel">
-            <img src="images/panel_1_miraculous_birth.png" alt="Close-up on a magnificent, giant peach splitting perfectly in half on a tatami mat. Inside, a healthy, beautiful baby boy, radiating a soft light, sits calmly. The elderly couple, the Old Woman with her single wooden bead in her hair and the Old Man with his thick white beard, are on their knees, looking on with wide-eyed shock and awe, hands clasped.">
-            <div class="dialogue">
-                <p><b>Baby Momotaro:</b> Don't be afraid. The Heavens have sent me to be your son.</p>
-                <p><b>Old Woman:</b> A son! A miracle!</p>
+        <h1>The Story of Momotaro: The Peach Boy's Journey</h1>
+
+        <div class="comic-panel">
+            <img src="images/panel_1_0.png" alt="The Old Woman and Old Man discover baby Momotaro in a giant peach." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Old Woman:</p>
+                    <p class="dialogue-line">Oh! What a colossal peach! I must retrieve it for my husband!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro (baby):</p>
+                    <p class="dialogue-line">Do not be afraid. The Heavens have sent me to be your son.</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_2_call_to_adventure.png" alt="Mid-shot of an adult Momotaro, wearing his vibrant peach-colored sash, standing resolute before his aging parents inside their humble home. The Old Woman offers him a small, wrapped bundle (Kibi-dango). The Old Man places a proud, yet worried, hand on Momotaro's shoulder. In a thought bubble above Momotaro's head, a shadowy, horned Oni hints at the lurking danger.">
-            <div class="dialogue">
-                <p><b>Momotaro:</b> I must go to Onigashima. I will defeat the Oni and bring back what they have stolen.</p>
-                <p><b>Old Woman:</b> Take these Kibi-dango, my son. They say one gives the strength of a hundred men.</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_2_0.png" alt="Momotaro, a young man, tells his parents he must go defeat the Oni." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro:</p>
+                    <p class="dialogue-line">I must go to Onigashima. I will defeat the Oni and bring back the stolen treasures to help our people.</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Old Woman:</p>
+                    <p class="dialogue-line">Oh, my son... Onigashima is a dangerous place!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Old Man:</p>
+                    <p class="dialogue-line">But your heart is true, Momotaro. We are proud.</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_3_gathering_first_allies.png" alt="A dynamic panel showing Momotaro walking along a rugged path. The Spotted Dog, with its three distinct black spots and braided red cord collar, walks loyally beside him. A mischievous Monkey, with its brass ear cuff and prehensile tail, swings down from a tree, looking eagerly towards Momotaro, who is offering him a Kibi-dango. The dog glances suspiciously at the monkey.">
-            <div class="dialogue">
-                <p><b>Momotaro:</b> Friend, would you care for a taste of this Kibi-dango?</p>
-                <p><b>Monkey:</b> OOH-OOH-AHH! GIMME! GIMME!</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_3_0.png" alt="The Old Woman gives Momotaro Kibi-dango for strength." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Old Woman:</p>
+                    <p class="dialogue-line">These Kibi-dango will give you the strength of a hundred men. Be brave, my son.</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro:</p>
+                    <p class="dialogue-line">I will return victorious, Father, Mother.</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_4_united_team.png" alt="Wide shot of Momotaro and his three animal companions standing together, facing the horizon with determination. Momotaro, wearing his peach-colored sash, stands in the center, his hand resting on the Spotted Dog's head. The Monkey is perched on Momotaro's shoulder, and the magnificent Pheasant, with its iridescent blue tail feathers and red eye patches, is perched on the monkey's head. They are ready.">
-            <div class="dialogue">
-                <p><b>Momotaro:</b> We are a team. And together, we are unstoppable.</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_4_0.png" alt="Momotaro journeys with the loyal Spotted Dog and mischievous Monkey." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Spotted Dog:</p>
+                    <p class="dialogue-line">Woof! Such power! I pledge my service to you, Momotaro!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Monkey:</p>
+                    <p class="dialogue-line">Such a taste! Lead the way, Momotaro! I'm in!</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_5_onigashima_infiltration.png" alt="Establishing shot of the dark, craggy shores of Onigashima, dominated by a massive, intimidating iron gate set into a cliff face. The Pheasant is seen swooping dramatically over the walls, dive-bombing a startled Oni guard and pecking at his eyes. Simultaneously, the Monkey skillfully climbs the gate's structure, his prehensile tail assisting, to unbolt the heavy bar. Momotaro, sword (in its intricately carved scabbard) ready, and the Spotted Dog, teeth bared, are poised below, prepared to charge through the opening gate.">
-            <div class="dialogue">
-                <p><b>Oni Guard:</b> OUCH! My eyes! What in the-?!</p>
-                <p><b>Monkey:</b> OOOH-HOO-HOO! This way, friends!</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_5_0.png" alt="The Pheasant joins Momotaro and his animal companions, forming a united team." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Pheasant:</p>
+                    <p class="dialogue-line">A powerful gift! Consider me your eyes in the sky, Momotaro!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro:</p>
+                    <p class="dialogue-line">With unity, we are strong. To Onigashima!</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_6_victory_oni_king.png" alt="Dynamic close-up on Momotaro, his two-pronged samurai helmet visible, standing triumphantly over the monstrous Oni King, who is defeated and cowering on his knees. The Oni King's single massive horn is chipped, and his jagged, rust-colored iron mask is askew, revealing fear in his glowing red eyes. Momotaro's wooden sword is pointed downwards, but ready. His companions (the Spotted Dog snarling, the Monkey chattering from a high perch, and the Pheasant observing from above) are visible around him.">
-            <div class="dialogue">
-                <p><b>Oni King:</b> STOP! MERCY! I beg you, Momotaro! I surrender!</p>
-                <p><b>Momotaro:</b> You will trouble no one ever again, Oni King. Swear it.</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_6_0.png" alt="The Pheasant, Monkey, Momotaro, and Spotted Dog infiltrate Onigashima." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Oni Minion:</p>
+                    <p class="dialogue-line">Aargh! My eye!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Monkey:</p>
+                    <p class="dialogue-line">Heh heh! Simpletons!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro:</p>
+                    <p class="dialogue-line">Now!</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_7_triumphant_homecoming.png" alt="A bustling wide shot of the village square. Momotaro, his companions, and their boat laden with glittering treasure (gold, jewels, and bolts of silk) are being greeted by an overjoyed crowd of villagers. The Old Woman (in her indigo kimono) and Old Man are prominently featured at the front, embracing Momotaro with tears of joy.">
-            <div class="dialogue">
-                <p><b>Villager 1:</b> MOMOTARO! OUR HERO!</p>
-                <p><b>Old Woman:</b> My son! My brave, brave son!</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_7_0.png" alt="Momotaro stands victorious over the defeated Oni King." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Oni King:</p>
+                    <p class="dialogue-line">Please! Spare me! I promise... no more raids! No more stealing!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro:</p>
+                    <p class="dialogue-line">Your reign of terror ends today, Oni King! Return all that you have stolen!</p>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <img src="images/panel_8_lasting_legacy.png" alt="Warm, soft-focus wide shot of a peaceful, thriving village, years later. An older Momotaro, still wearing his peach sash and helmet, stands as a wise protector, overseeing the scene. In the foreground, an elder is surrounded by attentive children, gesturing animatedly as they tell Momotaro's story. The loyal animal companions, now peaceful and older, are beside Momotaro.">
-            <div class="dialogue">
-                <p><b>Elder (Storyteller):</b> ...and so, Momotaro, the Peach Boy, lived out his days as a legendary protector, reminding us all that courage and cooperation can overcome even the greatest evils!</p>
-                <p><b>Child 2:</b> I want to be like Momotaro!</p>
+
+        <div class="comic-panel">
+            <img src="images/panel_8_0.png" alt="Momotaro and his companions return to a hero's welcome, bringing peace and prosperity." class="panel-image">
+            <div class="panel-dialogue">
+                <div class="dialogue-bubble">
+                    <p class="character-name">Old Woman:</p>
+                    <p class="dialogue-line">My son! You've done it!</p>
+                </div>
+                <div class="dialogue-bubble">
+                    <p class="character-name">Momotaro:</p>
+                    <p class="dialogue-line">The Oni are defeated. Our village is safe once more! And the story shall be told for generations...</p>
+                </div>
             </div>
         </div>
     </div>
