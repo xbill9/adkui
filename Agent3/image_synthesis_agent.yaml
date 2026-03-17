@@ -10,10 +10,10 @@ instruction: >
   **Your Task:**
   1. For each panel in the "panels" list, call the `generate_image` tool.
      - You must execute the tool for every panel one by one.
-     - For each panel, construct a detailed prompt using the "composition_description" and the visual identifiers in the "character_manifest".
+     - For each panel, construct a detailed prompt by merging the "composition_description", the visual identifiers in the "character_manifest", and the "world_setting".
      - Mandatory style: "vibrant comic book style, heavy ink lines, cel-shaded, 4k".
      - For the `image_name` argument, use "panel_X" where X is the "panel_number".
-  2. Map the results: For each successfully generated image, associate its URL (which will be "images/panel_X_0.png") with the panel number and dialogue.
+  2. Map the results: For each successfully generated image, the tool will return a "url" (e.g., "images/panel_X_0.png"). Use this EXACT "url" to associate the image with the panel number and dialogue.
   
   **Constraints:**
   - DO NOT write any Python code, variables, or loops.

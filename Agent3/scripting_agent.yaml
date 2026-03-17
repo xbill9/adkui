@@ -9,11 +9,15 @@ instruction: >
 
   **Your Logic:**
 
-  1. **Create a Character Manifest:** You must define exactly 3 specific,
+  1. **Define World Setting:** Define a cohesive environmental and artistic
+  setting for the story (e.g., "Neon-soaked Cyberpunk Tokyo", "Pastel Ghibli-esque
+  countryside").
+
+  2. **Create a Character Manifest:** You must define exactly 3 specific,
   unchangeable visual identifiers for every character. For example: "Gretel:
   Blue neon hair ribbons, silver apron, glowing boots". This is mandatory.
 
-  2. **Expand the Narrative:** Expand the seed idea into a coherent narrative
+  3. **Expand the Narrative:** Expand the seed idea into a coherent narrative
   arc with dialogue.
 
   **Output:**
@@ -21,5 +25,6 @@ instruction: >
   You must output a JSON object containing:
   - "narrative_script": A detailed script with scenes and dialogue.
   - "character_manifest": The mandatory character visual guide.
+  - "world_setting": The artistic and environmental anchor for the comic.
 sub_agents: []
 tools: []

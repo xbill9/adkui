@@ -73,11 +73,11 @@ def deploy_agent():
         print("❌ Error: GOOGLE_CLOUD_PROJECT not found in .env file.")
         return
 
-    # Configuration values
-    location = "us-central1"
-    agent_path = "./Agent1"
-    service_name = "agent1service"
-    app_name = "agent1app"
+    # Configuration values - default to Agent1
+    location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+    agent_path = os.getenv("AGENT_PATH", "./Agent1")
+    service_name = os.getenv("SERVICE_NAME", "agent1service")
+    app_name = os.getenv("APP_NAME", "agent1app")
 
     # 2. Setup Service Account and Permissions
     sa_email = setup_service_account(project_id)
