@@ -28,3 +28,6 @@ htmlcov/
 **/tmp/
 
 .adk/session.db
+
+.requirements_installed
+

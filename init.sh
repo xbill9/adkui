@@ -1,3 +1,12 @@
+#!/bin/bash
+
+# Check if gcloud is authenticated
+if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q "@"; then
+    echo "Error: No active gcloud account found."
+    echo "Please run 'gcloud auth login' and try again."
+    exit 1
+fi
+
 if [ -f "$HOME/project_id.txt" ]; then
     PROJECT_ID=$(cat "$HOME/project_id.txt")
 else
@@ -18,7 +27,7 @@ gcloud services enable cloudaicompanion.googleapis.com
 
 #curl -s https://raw.githubusercontent.com/haren-bh/gcpbillingactivate/main/activate.py | python3
 
-cat <<EOF> .env
+cat <<EOF > .env
 GOOGLE_GENAI_USE_VERTEXAI=1
 GOOGLE_CLOUD_PROJECT=$PROJECT_ID
 GOOGLE_CLOUD_LOCATION=us-central1
@@ -37,7 +46,13 @@ if [ -z "$CLOUD_SHELL" ]; then
     fi
 fi
 
-pip install -r requirements.txt
+if [ ! -f ".requirements_installed" ]; then
+    pip install -r requirements.txt
+    touch .requirements_installed
+fi
 
 echo "Environment setup"
 cat .env
+
+echo "Cloud Login"
+gcloud auth list
