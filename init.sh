@@ -31,3 +31,5 @@ source .env
 if [ -z "$CLOUD_SHELL" ]; then
     gcloud auth application-default login
 fi
+
+pip install -r requirements.txt
