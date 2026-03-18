@@ -25,12 +25,12 @@ async def create_image(prompt: str, tool_context: ToolContext) -> Union[Dict, st
 
     try:
         # Load environment variables from .env file two levels up
-        dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+        dotenv_path = os.path.join(os.path.dirname(__file__),  '..', '.env')
         load_dotenv(dotenv_path=dotenv_path)
         
         project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         location = os.getenv("GOOGLE_CLOUD_LOCATION")
-        model_name = os.getenv("IMAGEN_MODEL", "imagen-3.0-generate-002")
+        model_name = os.getenv("IMAGEN_MODEL", "imagen-3.0-fast-generate-001")
 
         if not all([project_id, location]):
             return "Error: Missing GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_LOCATION in .env file."
