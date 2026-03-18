@@ -7,3 +7,6 @@ GENAI_MODEL="gemini-2.5-flash"
 EOF
 
 source .env
+
+echo "Current Environment"
+cat .env
