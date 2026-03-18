@@ -29,3 +29,6 @@ cat .env
 
 echo "Cloud Login"
 gcloud auth list
+
+echo "ADK Version"
+adk --version

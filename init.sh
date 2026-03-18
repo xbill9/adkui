@@ -56,3 +56,7 @@ cat .env
 
 echo "Cloud Login"
 gcloud auth list
+
+echo "ADK update"
+pip install google-adk --upgrade
+adk --version
