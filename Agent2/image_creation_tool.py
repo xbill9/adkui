@@ -8,7 +8,23 @@ from google import genai
 from google.genai import types
 from google.adk.tools import ToolContext
 
-# Use a module-level logger
+# Configure logging
+# Create a formatter for the log entries
+log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# Set up console handler
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(log_formatter)
+
+# Set up file handler for persistent tool call logging
+file_handler = logging.FileHandler('tool_calls.log')
+file_handler.setFormatter(log_formatter)
+
+# Configure the root-level logger for this module
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[console_handler, file_handler]
+)
 logger = logging.getLogger(__name__)
 
 async def create_image(prompt: str, tool_context: ToolContext) -> Dict[str, Any]:
@@ -22,21 +38,21 @@ async def create_image(prompt: str, tool_context: ToolContext) -> Dict[str, Any]
     Returns:
         A dictionary containing the status, message, and artifact details.
     """
-    logger.info(f"Initiating image generation for prompt: '{prompt[:50]}...'")
+    # Load environment variables. load_dotenv() searches parent directories automatically.
+    load_dotenv()
+    
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+    location = os.getenv("GOOGLE_CLOUD_LOCATION")
+    model_name = os.getenv("IMAGEN_MODEL", "imagen-3.0-fast-generate-001")
+
+    if not all([project_id, location]):
+        error_msg = "Missing GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_LOCATION in environment."
+        logger.error(error_msg)
+        return {"status": "error", "message": error_msg}
+
+    logger.info(f"Initiating image generation for prompt: '{prompt[:50]}...' using model: {model_name}")
 
     try:
-        # Load environment variables. load_dotenv() searches parent directories automatically.
-        load_dotenv()
-        
-        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-        location = os.getenv("GOOGLE_CLOUD_LOCATION")
-        model_name = os.getenv("IMAGEN_MODEL", "imagen-3.0-fast-generate-001")
-
-        if not all([project_id, location]):
-            error_msg = "Missing GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_LOCATION in environment."
-            logger.error(error_msg)
-            return {"status": "error", "message": error_msg}
-
         client = genai.Client(
             vertexai=True,
             project=project_id,
@@ -44,6 +60,7 @@ async def create_image(prompt: str, tool_context: ToolContext) -> Dict[str, Any]
         )
 
         # Generate the image
+        logger.debug(f"Calling generate_images with config: aspect_ratio=16:9, safety_filter_level=block_low_and_above")
         response = client.models.generate_images(
             model=model_name,
             prompt=prompt,
@@ -56,6 +73,7 @@ async def create_image(prompt: str, tool_context: ToolContext) -> Dict[str, Any]
         )
 
         if not response.generated_images:
+            logger.warning("Generation call returned success but no images were produced.")
             return {"status": "error", "message": "The model did not generate any images."}
 
         # Process the generated image
