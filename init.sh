@@ -29,7 +29,15 @@ EOF
 source .env
 
 if [ -z "$CLOUD_SHELL" ]; then
-    gcloud auth application-default login
+    if ! gcloud auth application-default print-access-token > /dev/null 2>&1; then
+        echo "ADC expired or not found. Initializing login..."
+        gcloud auth application-default login
+    else
+        echo "ADC is valid."
+    fi
 fi
 
 pip install -r requirements.txt
+
+echo "Environment setup"
+cat .env
