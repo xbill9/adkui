@@ -4,7 +4,7 @@ This document provides context for the Gemini Code Assistant to understand the A
 
 ## Project Overview
 
-This project implements a multi-agent system using the **Google ADK** to automate the creation of comic books. It follows a sequential pipeline where different specialized agents handle scripting, panelization, image synthesis, and final assembly.
+This project implements a multi-agent system using the **Google ADK** to automate the creation of comic books. It follows a sequential pipeline where specialized agents handle scripting, panelization, image synthesis, and assembly.
 
 It is based on the solution to the codelab: [Create a low-code agent with ADK visual builder]
 (https://codelabs.developers.google.com/codelabs/create-low-code-agent-with-ADK-visual-builder)
@@ -15,44 +15,48 @@ It is based on the solution to the codelab: [Create a low-code agent with ADK vi
 *   **Language:** Python 3
 *   **Generative AI:** Vertex AI (GenAI SDK)
 *   **Models:**
-    *   **LLM Tasks:** `gemini-2.5-flash` (Used for scripting, panelization, and assembly coordination)
+    *   **LLM Tasks:** `gemini-2.5-flash` (used for narrative and layout planning).
 *   **Environment:** `.env` for Google Cloud project configuration (project ID, location, etc.)
 
-do not suggest gemini-2.0 models they are depreciated
+**Important:** Do not suggest `gemini-2.0` models; they are deprecated.
 
 ## Project Structure
 
-*   `Agent1/`, `Agent2/`, `Agent3/`: Iterative stages of agent configurations.
-* Agent1 - simple google search tool
-* Agent2 - image generation tool   
-*   `Agent3/`: The primary comic pipeline implementation.
-    *   `comic_pipeline_agent.yaml`: Orchestrates the full process (SequentialAgent).
-    *   `scripting_agent.yaml`: Generates the comic script and character manifest.
-    *   `panelization_agent.yaml`: Breaks the script into 8 distinct panels.
-    *   `image_synthesis_agent.yaml`: Generates images for each panel.
-    *   `assembly_agent.yaml`: Compiles panels into an HTML format.
+*   `Agent1/`: Simple agent with a Google Search tool.
+*   `Agent2/`: Image generation agent demonstrating sub-agent coordination.
+*   `Agent3/`: Primary comic pipeline implementation.
+    *   `comic_pipeline_agent.yaml`: Orchestrates the `SequentialAgent` workflow.
+    *   `scripting_agent.yaml`, `panelization_agent.yaml`, `image_synthesis_agent.yaml`, `assembly_agent.yaml`: Specialized agents for each stage.
     *   `tools/`: Python implementations for ADK tools.
-        *   `image_generation.py`: Interfaces with Vertex AI for image tasks (Gemini-based).
-        *   `file_writer.py`: Handles HTML generation and asset management.
+        *   `image_generation.py`: Interfaces with Vertex AI for 16:9 image generation.
+        *   `file_writer.py`: Generates the responsive `comic.html` and saves assets.
 *   `images/`: Local storage for generated panel images.
-*   `output/`: Contains the final `comic.html` and associated assets.
+*   `output/`: Final delivery directory containing `comic.html` and necessary assets.
+
+## Deployment & Automation
+
+*   `deploycloudrun.py`: Script to deploy an agent (default `Agent1`) to Cloud Run.
+    *   Creates a Service Account named `adkvisualbuilder`.
+    *   Assigns necessary IAM roles: `aiplatform.user`, `run.admin`, `logging.logWriter`, `artifactregistry.writer`, `storage.admin`.
+    *   Automatically handles project ID and location from `.env`.
+*   `comic.sh`: Launches a local server (`python -m http.server 8080`) in the `output/` directory for immediate viewing of generated comics.
+*   `fix_comic.py`: A utility script used to regenerate `comic.html` using a default story template and `file_writer` tool.
 
 ## Known Bugs & Workarounds
 
-*   **Environment Variables:** After creating the `.env` file, you must `source .env` to expose variables in the current shell.
-*   **YAML Nesting:** Agent creation may incorrectly nest the YAML file in a subdirectory. The workaround is to manually move it to the root of the agent's directory.
-*   **Issue Tracker:** See [adk-python Issue #4134](https://github.com/google/adk-python/issues/4134).
+*   **Environment Variables:** After editing `.env`, you must `source .env` or run `./set_env.sh`.
+*   **YAML Nesting:** The ADK CLI may nest YAML configurations in subdirectories incorrectly. They must be moved to the root of the respective agent's directory.
+*   **Issue Tracker:** Refer to [adk-python Issue #4134](https://github.com/google/adk-python/issues/4134).
 
-## Workflow
+## Workflow (Agent3)
 
-The `comic_pipeline_agent` (found in `Agent3`) runs a `SequentialAgent` workflow:
-1.  **Scripting**: A seed idea is expanded into a script and character manifest.
-2.  **Panelization**: The script is divided into exactly 8 panels with detailed descriptions.
-3.  **Image Synthesis**: Each panel description is used to generate a 16:9 image.
-4.  **Assembly**: The images and script are wrapped into a responsive HTML layout saved in `output/comic.html`.
+1.  **Scripting**: Seed idea -> script + character manifest.
+2.  **Panelization**: Script -> 8 distinct 16:9 panels with descriptions.
+3.  **Image Synthesis**: Panel descriptions -> Vertex AI generated images.
+4.  **Assembly**: Images + Script -> responsive HTML layout (`output/comic.html`).
 
 ## Setup & Configuration
 
-1.  **GCP Project**: Ensure `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` are set in `.env`.
-2.  **Dependencies**: Requires `google-adk`, `google-genai`, `vertexai`, and `python-dotenv`.
-3.  **Authentication**: Use `gcloud auth application-default login` for local development.
+1.  **GCP Project**: Requires `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` in `.env`.
+2.  **Dependencies**: Managed via `requirements.txt`.
+3.  **Authentication**: Use `gcloud auth application-default login` for local execution and deployment.
