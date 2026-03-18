@@ -16,7 +16,7 @@ gcloud services enable run.googleapis.com
 gcloud services enable cloudaicompanion.googleapis.com
 
 
-curl -s https://raw.githubusercontent.com/haren-bh/gcpbillingactivate/main/activate.py | python3
+#curl -s https://raw.githubusercontent.com/haren-bh/gcpbillingactivate/main/activate.py | python3
 
 cat <<EOF> .env
 GOOGLE_GENAI_USE_VERTEXAI=1
