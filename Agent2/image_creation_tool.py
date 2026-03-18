@@ -1,16 +1,17 @@
 import os
 import logging
-from typing import Union, Dict
+import uuid
+from datetime import datetime
+from typing import Union, Dict, Any
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from google.adk.tools import ToolContext
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Use a module-level logger
 logger = logging.getLogger(__name__)
 
-async def create_image(prompt: str, tool_context: ToolContext) -> Union[Dict, str]:
+async def create_image(prompt: str, tool_context: ToolContext) -> Dict[str, Any]:
     """
     Generates an image based on a text prompt using the Google GenAI SDK (Vertex AI).
 
@@ -19,21 +20,22 @@ async def create_image(prompt: str, tool_context: ToolContext) -> Union[Dict, st
         tool_context: The ADK tool context for saving artifacts.
 
     Returns:
-        A dictionary with status, message, and artifact_name on success, or an error message string on failure.
+        A dictionary containing the status, message, and artifact details.
     """
-    logger.info(f"Attempting to generate image for prompt: '{prompt}'")
+    logger.info(f"Initiating image generation for prompt: '{prompt[:50]}...'")
 
     try:
-        # Load environment variables from .env file two levels up
-        dotenv_path = os.path.join(os.path.dirname(__file__),  '..', '.env')
-        load_dotenv(dotenv_path=dotenv_path)
+        # Load environment variables. load_dotenv() searches parent directories automatically.
+        load_dotenv()
         
         project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         location = os.getenv("GOOGLE_CLOUD_LOCATION")
         model_name = os.getenv("IMAGEN_MODEL", "imagen-3.0-fast-generate-001")
 
         if not all([project_id, location]):
-            return "Error: Missing GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_LOCATION in .env file."
+            error_msg = "Missing GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_LOCATION in environment."
+            logger.error(error_msg)
+            return {"status": "error", "message": error_msg}
 
         client = genai.Client(
             vertexai=True,
@@ -41,44 +43,48 @@ async def create_image(prompt: str, tool_context: ToolContext) -> Union[Dict, st
             location=location,
         )
 
+        # Generate the image
         response = client.models.generate_images(
             model=model_name,
             prompt=prompt,
             config=types.GenerateImagesConfig(
                 number_of_images=1,
-                aspect_ratio="16:9",  # Consistent with the comic book project's standard
+                aspect_ratio="16:9",
                 safety_filter_level="block_low_and_above",
                 person_generation="allow_adult",
             ),
         )
 
         if not response.generated_images:
-            return "Error: No image was generated."
+            return {"status": "error", "message": "The model did not generate any images."}
 
-        # Process the first generated image
+        # Process the generated image
         generated_image = response.generated_images[0]
         image_bytes = generated_image.image.image_bytes
         
-        # Use a unique name for the artifact
-        counter = str(tool_context.state.get("loop_iteration", 0))
-        artifact_name = f"generated_image_{counter}.png"
+        # Create a unique name using timestamp and a short UUID
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        unique_id = str(uuid.uuid4())[:8]
+        artifact_name = f"gen_image_{timestamp}_{unique_id}.png"
         
         # Save as ADK artifact
-        report_artifact = types.Part.from_bytes(
+        image_part = types.Part.from_bytes(
             data=image_bytes, 
             mime_type="image/png"
         )
-        await tool_context.save_artifact(artifact_name, report_artifact)
+        await tool_context.save_artifact(artifact_name, image_part)
         
-        logger.info(f"Image generated and saved as ADK artifact: {artifact_name}")
+        logger.info(f"Successfully saved artifact: {artifact_name}")
         
         return {
             "status": "success",
-            "message": f"Image generated successfully. ADK artifact: {artifact_name}.",
+            "message": f"Image generated and saved as '{artifact_name}'.",
             "artifact_name": artifact_name,
+            "timestamp": timestamp,
+            "prompt_used": prompt
         }
 
     except Exception as e:
-        error_message = f"An error occurred during image generation: {e}"
-        logger.error(error_message)
-        return error_message
+        error_details = f"Unexpected error during image generation: {str(e)}"
+        logger.exception(error_details)
+        return {"status": "error", "message": error_details}
