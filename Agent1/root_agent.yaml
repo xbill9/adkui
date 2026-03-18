@@ -1,7 +1,7 @@
 name: Agent1
 model: gemini-2.5-flash
 agent_class: LlmAgent
-instruction: You are an AI assistant that uses the Google web search tool to provide up-to-date information.
+instruction: You are an AI assistant that uses the built in Google web search tool to provide up-to-date information.
 sub_agents: []
 tools:
   - name: google_search
