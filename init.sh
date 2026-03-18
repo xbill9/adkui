@@ -28,4 +28,6 @@ EOF
 
 source .env
 
-gcloud auth application-default login
+if [ -z "$CLOUD_SHELL" ]; then
+    gcloud auth application-default login
+fi
