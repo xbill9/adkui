@@ -11,28 +11,41 @@ It is based on the solution to the codelab: [Create a low-code agent with ADK vi
 - **AI Image Synthesis**: Generates 16:9 images for each panel using Vertex AI.
 - **HTML Assembly**: Compiles the final artwork and script into a responsive HTML comic book.
 - **Cloud Deployment**: Scripts included for deploying agents to Google Cloud Run.
+- **Low-Code Interface**: Use the ADK Builder for visual agent development.
 
 ## Project Structure
 
-- `Agent1/`: A basic agent featuring a Google Search tool.
-- `Agent2/`: An agent focused on image generation using sub-agents.
+- `Agent1/`: A basic agent featuring a Google Search tool. Uses `root_agent.yaml`.
+- `Agent2/`: An agent focused on image generation using sub-agents. Uses `root_agent.yaml` and `sub_agent_*.yaml`.
 - `Agent3/`: The primary comic pipeline implementation.
-  - `Agent3/tools/`: Custom Python tools for image generation and file handling.
+  - `root_agent.yaml`: The Studio Director agent that manages the pipeline.
+  - `comic_pipeline_agent.yaml`: Orchestrates the `SequentialAgent` workflow.
+  - `tools/`: Custom Python tools for image generation and file handling.
 - `images/`: Directory where intermediate panel images are stored.
 - `output/`: The final output directory containing `comic.html` and assets.
-- `Makefile`: Shortcuts for common development tasks.
 
 ## Scripts & Utilities
 
+- `agent_builder`: Launches the ADK Builder UI (accessible via browser) for visual agent design.
+- `myadk`: A convenience wrapper for the `adk` CLI tool.
 - `comic.sh`: Starts a local web server (port 8080) to view the generated comic.
 - `deploycloudrun.py`: Automates deployment to Google Cloud Run, including IAM and Service Account setup.
 - `fix_comic.py`: Manual utility to regenerate the `comic.html` with a default story (Momotaro).
-- `set_env.sh`: Helper script to set required environment variables.
-- `init.sh` / `set_adc.sh`: Initial setup and authentication helpers.
+- `init.sh`: Comprehensive setup script to configure the GCP project, enable APIs, and install dependencies.
+- `set_env.sh` / `set_adc.sh`: Helpers to set environment variables and refresh Application Default Credentials.
+
+## Makefile Commands
+
+- `make run`: Runs `adk web .` to start the ADK development server.
+- `make web`: Starts `adk web` on all interfaces (`0.0.0.0`).
+- `make clean`: Removes log files, generated images, and temporary cache directories.
+- `make test`: Runs `fix_comic.py` to validate the HTML generation.
+- `make deploy`: Deploys the project using `deploycloudrun.py`.
+- `make comic`: Launches a server specifically for the `output/` directory on port 8000.
 
 ## How it Works (Agent3)
 
-The system uses a `SequentialAgent` (the `comic_pipeline_agent`) that coordinates four specialized agents:
+The system uses a `Studio Director` agent (`root_agent.yaml`) that delegates to a `SequentialAgent` (`comic_pipeline_agent.yaml`), coordinating four specialized stages:
 1. **Scripting Agent**: Narrative and Character Architect.
 2. **Panelization Agent**: Cinematographer and Storyboarder.
 3. **Image Synthesis Agent**: Technical Artist and Asset Generator.
@@ -40,25 +53,24 @@ The system uses a `SequentialAgent` (the `comic_pipeline_agent`) that coordinate
 
 ## Known Bugs & Workarounds
 
-*   **Environment Variables**: After creating the `.env` file, run `source .env` or `./set_env.sh` to expose variables.
-*   **YAML Nesting**: Agent creation may nest the YAML file in a subdirectory. Move the YAML file to the root of the agent's folder as a workaround.
+*   **Environment Variables**: After editing `.env`, run `source .env` or `./set_env.sh` to update your shell.
+*   **YAML Nesting**: The ADK CLI may nest YAML configurations in subdirectories incorrectly. They must be moved to the root of the respective agent's directory.
 *   **Issue Tracking**: See [google/adk-python Issue #4134](https://github.com/google/adk-python/issues/4134).
 
 ## Getting Started
 
-1.  **Configure Environment**: Set `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` in the `.env` file or use `./set_env.sh`.
-2.  **Authenticate**: Run `gcloud auth application-default login`.
-3.  **Install Dependencies**: `pip install -r requirements.txt`.
-4.  **Run Pipeline**: Execute the `comic_pipeline_agent` (found in `Agent3/`) using the ADK CLI:
+1.  **Initialize Project**: Run `./init.sh` to set up your Google Cloud project, enable necessary APIs, and install dependencies.
+2.  **Verify Environment**: Ensure `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` are set in the `.env` file.
+3.  **Run Pipeline**: Execute the comic creation pipeline for Agent3:
     ```bash
-    adk run Agent3 --input "Your comic idea here"
+    adk run Agent3 --input "Create me a comic about a space explorer on a neon planet."
     ```
-5.  **View Results**: Run `./comic.sh` and open `http://localhost:8080` in your browser.
+4.  **View Results**: Run `./comic.sh` and open `http://localhost:8080` in your browser.
 
 ## Deployment
 
-To deploy an agent to Google Cloud Run:
+To deploy an agent (default Agent1) to Google Cloud Run:
 ```bash
-python deploycloudrun.py
+make deploy
 ```
-*Note: Default deployment is configured for Agent1. Edit `deploycloudrun.py` or set environment variables to deploy other agents.*
+*Note: Edit `deploycloudrun.py` to change the default target agent.*

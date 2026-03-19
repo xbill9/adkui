@@ -6,8 +6,7 @@ This document provides context for the Gemini Code Assistant to understand the A
 
 This project implements a multi-agent system using the **Google ADK** to automate the creation of comic books. It follows a sequential pipeline where specialized agents handle scripting, panelization, image synthesis, and assembly.
 
-It is based on the solution to the codelab: [Create a low-code agent with ADK visual builder]
-(https://codelabs.developers.google.com/codelabs/create-low-code-agent-with-ADK-visual-builder)
+It is based on the solution to the codelab: [Create a low-code agent with ADK visual builder](https://codelabs.developers.google.com/codelabs/create-low-code-agent-with-ADK-visual-builder)
 
 ## Key Technologies
 
@@ -16,15 +15,17 @@ It is based on the solution to the codelab: [Create a low-code agent with ADK vi
 *   **Generative AI:** Vertex AI (GenAI SDK)
 *   **Models:**
     *   **LLM Tasks:** `gemini-2.5-flash` (used for narrative and layout planning).
-*   **Environment:** `.env` for Google Cloud project configuration (project ID, location, etc.)
+    *   **Image Gen:** `imagen-3.0-fast-generate-001`.
+*   **Environment:** `.env` for Google Cloud project configuration (project ID, location, models, etc.)
 
 **Important:** Do not suggest `gemini-2.0` models; they are deprecated.
 
 ## Project Structure
 
-*   `Agent1/`: Simple agent with a Google Search tool.
-*   `Agent2/`: Image generation agent demonstrating sub-agent coordination.
+*   `Agent1/`: Simple agent with a Google Search tool. Uses `root_agent.yaml`.
+*   `Agent2/`: Image generation agent demonstrating sub-agent coordination. Uses `root_agent.yaml` and `sub_agent_*.yaml`.
 *   `Agent3/`: Primary comic pipeline implementation.
+    *   `root_agent.yaml`: The entry-point (Studio Director) agent.
     *   `comic_pipeline_agent.yaml`: Orchestrates the `SequentialAgent` workflow.
     *   `scripting_agent.yaml`, `panelization_agent.yaml`, `image_synthesis_agent.yaml`, `assembly_agent.yaml`: Specialized agents for each stage.
     *   `tools/`: Python implementations for ADK tools.
@@ -33,14 +34,21 @@ It is based on the solution to the codelab: [Create a low-code agent with ADK vi
 *   `images/`: Local storage for generated panel images.
 *   `output/`: Final delivery directory containing `comic.html` and necessary assets.
 
-## Deployment & Automation
+## Tools & Scripts
 
+*   `agent_builder`: Launches the ADK Builder UI for visual agent development.
+*   `myadk`: Convenience wrapper for the `adk` CLI tool.
+*   `init.sh`: Automated setup script for GCP project initialization, API enabling, and dependency installation.
 *   `deploycloudrun.py`: Script to deploy an agent (default `Agent1`) to Cloud Run.
     *   Creates a Service Account named `adkvisualbuilder`.
     *   Assigns necessary IAM roles: `aiplatform.user`, `run.admin`, `logging.logWriter`, `artifactregistry.writer`, `storage.admin`.
-    *   Automatically handles project ID and location from `.env`.
 *   `comic.sh`: Launches a local server (`python -m http.server 8080`) in the `output/` directory for immediate viewing of generated comics.
 *   `fix_comic.py`: A utility script used to regenerate `comic.html` using a default story template and `file_writer` tool.
+*   `Makefile`: Shortcuts for common tasks:
+    *   `make run`/`make web`: Start ADK web UI.
+    *   `make clean`: Purge logs and images.
+    *   `make test`: Validate comic generation locally.
+    *   `make deploy`: Trigger deployment script.
 
 ## Known Bugs & Workarounds
 
