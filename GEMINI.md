@@ -56,6 +56,8 @@ It is based on the solution to the codelab: [Create a low-code agent with ADK vi
 *   **YAML Nesting:** The ADK CLI may nest YAML configurations in subdirectories incorrectly. They must be moved to the root of the respective agent's directory.
 *   **Issue Tracker:** Refer to [adk-python Issue #4134](https://github.com/google/adk-python/issues/4134).
 
+* if the builder does not show add &builder=1 or ?builder=1 to the URL
+
 ## Workflow (Agent3)
 
 1.  **Scripting**: Seed idea -> script + character manifest.
