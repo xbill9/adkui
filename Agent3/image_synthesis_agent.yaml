@@ -9,7 +9,7 @@ instruction: >
 
   **Your Task:**
   1. For each panel in the "panels" list, call the `generate_image` tool.
-     - You must execute the tool for every panel one by one.
+     - You must execute the tool for all panels simultaneously (in parallel).
      - For each panel, construct a detailed prompt by merging the "composition_description", the visual identifiers in the "character_manifest", and the "world_setting".
      - Mandatory style: "vibrant comic book style, heavy ink lines, cel-shaded, 4k".
      - For the `image_name` argument, use "panel_X" where X is the "panel_number".

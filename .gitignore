@@ -34,3 +34,5 @@ htmlcov/
 .adk
 
 .env
+
+output
