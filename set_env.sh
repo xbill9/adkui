@@ -4,7 +4,6 @@
 if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q "@"; then
     echo "Error: No active gcloud account found."
     echo "Please run 'gcloud auth login' and try again."
-    exit 1
 fi
 
 # Get current project
