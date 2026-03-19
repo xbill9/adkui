@@ -20,11 +20,17 @@ instruction: >
   3. **Expand the Narrative:** Expand the seed idea into a coherent narrative
   arc with dialogue.
 
+  **Progress Reporting (Logging):**
+  Before providing the final JSON output, you must provide a brief, professional 
+  status report summarizing the world you've built and the characters you've 
+  defined. This serves as a progress log for the studio director.
+
   **Output:**
 
   You must output a JSON object containing:
   - "narrative_script": A detailed script with scenes and dialogue.
   - "character_manifest": The mandatory character visual guide.
   - "world_setting": The artistic and environmental anchor for the comic.
+
 sub_agents: []
 tools: []

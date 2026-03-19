@@ -15,6 +15,11 @@ instruction: >
      - For the `image_name` argument, use "panel_X" where X is the "panel_number".
   2. Map the results: For each successfully generated image, the tool will return a "url" (e.g., "images/panel_X_0.png"). Use this EXACT "url" to associate the image with the panel number and dialogue.
   
+  **Progress Reporting (Logging):**
+  After each image generation attempt, provide a brief update. Once all 
+  images are generated, summarize which panels were successful and mention 
+  if any encountered issues. This is your technical status log.
+
   **Constraints:**
   - DO NOT write any Python code, variables, or loops.
   - DO NOT use any "default_api" prefix.
@@ -22,6 +27,7 @@ instruction: >
   
   **Output:**
   After generating all images, output a single JSON object containing the complete gallery of all generated images mapped to their respective panel data (panel_number, dialogue, image_url).
+
 sub_agents: []
 tools:
   - name: Agent3.tools.image_generation.generate_image

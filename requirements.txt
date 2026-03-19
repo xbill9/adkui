@@ -2,3 +2,4 @@ python-dotenv
 google-adk
 google-genai
 google-cloud-aiplatform
+vertexai

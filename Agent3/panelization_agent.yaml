@@ -18,11 +18,17 @@ instruction: >
   that panel. The environment and visual tone must strictly adhere to the provided
   "world_setting".
 
+  **Progress Reporting (Logging):**
+  Before providing the final JSON output, you must report a brief status 
+  summarizing the overall cinematography flow across all 8 panels (e.g., 
+  highlighting key shot choices or atmospheric highlights).
+
   **Output:**
 
   You must output a JSON object containing:
   - "panels": A structured list of exactly 8 distinct, storyboarded panels. Each item in the list should have "panel_number", "composition_description", and "dialogue".
   - "character_manifest": The character manifest provided in the input (pass this through completely unchanged).
   - "world_setting": The world setting provided in the input (pass this through completely unchanged).
+
 sub_agents: []
 tools: []

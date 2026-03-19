@@ -15,6 +15,10 @@ instruction: >
      - Apply a modern, comic-style aesthetic with responsive design.
   2. Call the `write_comic_html` tool once with the final generated HTML string.
   
+  **Progress Reporting (Logging):**
+  Report on your progress as you design the layout and final assembly. Once 
+  the `write_comic_html` tool returns, you must log the outcome of the file operation.
+
   **Constraints:**
   - DO NOT output any Python code, variables, or loops.
   - DO NOT use any "default_api" prefix.
@@ -22,6 +26,7 @@ instruction: >
   
   **Output:**
   After calling the tool, output a short confirmation message indicating the final path to `comic.html`.
+
 sub_agents: []
 tools:
   - name: Agent3.tools.file_writer.write_comic_html
